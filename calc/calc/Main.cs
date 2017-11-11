@@ -11,35 +11,37 @@ namespace calc
             
             while (true)
             {
-                Console.Write("do you want to da a calculation ? [y/N]: ");
+                Console.Write("do you want to do a calculation ? [y/N]: ");
                 if (Console.ReadLine().ToLower().Equals("y"))
                 {
-                    Console.WriteLine("start");
-                    Console.Write("enter the first number: ");
-                    string input = Console.ReadLine();
-                    Console.Write("enter the second number: ");
-                    if (!double.TryParse(input, out double Number1))
+                    Console.Write("enter mode\n1 = OpenCircuitVoltage\n");
+                    string mode = Console.ReadLine();
+                    switch (mode)
                     {
-                        Console.WriteLine("\n invalid input1 needs number ");
-                        Thread.Sleep(800);
-                        goto end;
+                        case "1":
+                            
+                            double? highTemp = GetNumber("enter T high: ");
+                            if(highTemp == null) break;
+                            double? lowTemp = GetNumber("enter T low: ");
+                            if(lowTemp == null) break;
+
+                            Tcalc tc = new Tcalc();
+
+                            Console.WriteLine(tc.OpenCircuitVoltage((double)highTemp, (double)lowTemp));
+                            break;
+                        default:
+                            break;
+
+
+
+
+
                     }
-                    input = Console.ReadLine();
-                    if (!double.TryParse(input, out double Number2))
-                    {
-                        Console.WriteLine("\n invalid input2 needs number ");
-                        Thread.Sleep(800);
-                        goto end;
-                    }
-
-
-
-
-
-                    Calc c = new Calc();
+                   
+                    /*Calc c = new Calc();
                     Console.Write($"Multiplying {Number1} and {Number1}\n");
                     double mult = c.MultiplyNumbers(Number1, Number1);
-                    Console.WriteLine(mult);
+                    Console.WriteLine(mult);*/
                     Thread.Sleep(8000);
 
 
@@ -95,6 +97,22 @@ namespace calc
                  end: Console.Clear();       }*/
         }
 
+        private static double? GetNumber(string prompt){
+            Console.Write(prompt);
+            string input = Console.ReadLine();
+            if (double.TryParse(input, out double number))
+            {
+                
+                return number;
+            }else{
+                Console.WriteLine("\n input invalid ");
+                Thread.Sleep(800);
+                return null;
+            }
+
+
+            
+        }
 
 
     }

@@ -6,6 +6,16 @@ namespace calc
         public Tcalc()
         {
         }
+        public double OpenCircuitVoltage(double high, double low)
+        {
+            
+        }
+
+
+
 
     }
+
+
+
 }
