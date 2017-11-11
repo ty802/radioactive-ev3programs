@@ -14,20 +14,36 @@ namespace calc
                 Console.Write("do you want to do a calculation ? [y/N]: ");
                 if (Console.ReadLine().ToLower().Equals("y"))
                 {
-                    Console.Write("enter mode\n1 = OpenCircuitVoltage\n");
+                    Console.Write("enter mode\n1 = OpenCircuitVoltage\n: ");
                     string mode = Console.ReadLine();
                     switch (mode)
                     {
                         case "1":
-                            
+                            double? Isc = GetNumber("what system do you want to use \n 1 : Celsius, 2 : Fahrenheit\n: ");
+                            if (Isc == null) break;
                             double? highTemp = GetNumber("enter T high: ");
                             if(highTemp == null) break;
                             double? lowTemp = GetNumber("enter T low: ");
                             if(lowTemp == null) break;
-
+                            double high = 0;
+                            double low = 0;
                             Tcalc tc = new Tcalc();
+                            switch((int)Isc){
+                                case 1:
+                                    high = calc.Tcalc.Kalv((double)highTemp);
+                                    low = calc.Tcalc.Kalv((double)lowTemp);
+                                    break;
+                                case 2:
+                                    high = calc.Tcalc.Kalv(calc.Tcalc.Celc((double)highTemp));
+                                    low = calc.Tcalc.Kalv(calc.Tcalc.Celc((double)lowTemp));
+                                    break;
+                                default:
+                                    break;
 
-                            Console.WriteLine(tc.OpenCircuitVoltage((double)highTemp, (double)lowTemp));
+                            }
+
+                            Console.WriteLine(tc.OpenCircuitVoltage(high, low));
+                            Thread.Sleep(5000);
                             break;
                         default:
                             break;
@@ -42,13 +58,13 @@ namespace calc
                     Console.Write($"Multiplying {Number1} and {Number1}\n");
                     double mult = c.MultiplyNumbers(Number1, Number1);
                     Console.WriteLine(mult);*/
-                    Thread.Sleep(8000);
+
 
 
 
                 }
                 else break;
-                end: Console.Clear();
+                Console.Clear();
             }
 
 
