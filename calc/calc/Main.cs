@@ -23,17 +23,19 @@ namespace calc
 
         private static void Main(string[] args)
         {
+            bool Ok = false;
             while (true)
             {
                 Console.Write("do you want to do a calculation ? [y/N]: ");
                 if (Console.ReadLine().ToLower().Equals("y"))
                 {
                     Console.Write("enter mode\n1 = OpenCircuitVoltage\n: ");
+                    // geting mode
                     string mode = Console.ReadLine();
                     switch (mode)
                     {
                         case "1":
-                            double? Isc = GetNumber("what system do you want to use \n 1 : Celsius, 2 : Fahrenheit\n: ");
+                            double? Isc = GetNumber("what system do you want to use \n 1 : Celsius, 2 : Fahrenheit 3 : Kelvin\n: ");
                             if (Isc == null) break;
                             double? highTemp = GetNumber("enter T high: ");
                             if (highTemp == null) break;
@@ -41,7 +43,7 @@ namespace calc
                             if (lowTemp == null) break;
                             double high = 0;
                             double low = 0;
-                            switch ((int)Isc)
+                            switch ((double)Isc)
                             {
                                 case 1:
                                     //converting C to Kelvin - with an extension method
@@ -49,6 +51,7 @@ namespace calc
                                     high = ((double)highTemp).ToKelvin();
                                     //low = calc.Tcalc.Kalv((double)lowTemp);
                                     low = ((double)lowTemp).ToKelvin();
+                                    Ok = true;
                                     break;
 
                                 case 2:
@@ -57,14 +60,26 @@ namespace calc
                                     high = (((double)highTemp).ToCelsius()).ToKelvin();
                                     //low = calc.Tcalc.Kalv(calc.Tcalc.Celc((double)lowTemp));
                                     low = (((double)lowTemp).ToCelsius()).ToKelvin();
+                                    Ok = true;
                                     break;
-
+                                case 3:
+                                    high = (double)highTemp;
+                                    low = (double)lowTemp;
+                                    Ok = true;
+                                    break;
                                 default:
+                                    Console.WriteLine("\n input invalid");
                                     break;
                             }
 
                             //in order to call static methods without the "this" keyword, we just use the name of the static class
-                            Console.WriteLine(Tcalc.OpenCircuitVoltage(high, low));
+                            if (Ok)
+                            {
+                                Console.WriteLine(Tcalc.OpenCircuitVoltage(high, low));
+                                Console.WriteLine("Press any key to continue...");
+                                Console.ReadKey();
+
+                            }
                             Thread.Sleep(5000);
                             break;
 
