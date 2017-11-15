@@ -3,12 +3,26 @@ using System.Threading;
 
 namespace calc
 {
-    class Program
+    internal class Program
     {
-
-        static void Main(string[] args)
+        private static double? GetNumber(string prompt)
         {
-            
+            Console.Write(prompt);
+            string input = Console.ReadLine();
+            if (double.TryParse(input, out double number))
+            {
+                return number;
+            }
+            else
+            {
+                Console.WriteLine("\n input invalid ");
+                Thread.Sleep(800);
+                return null;
+            }
+        }
+
+        private static void Main(string[] args)
+        {
             while (true)
             {
                 Console.Write("do you want to do a calculation ? [y/N]: ");
@@ -22,51 +36,50 @@ namespace calc
                             double? Isc = GetNumber("what system do you want to use \n 1 : Celsius, 2 : Fahrenheit\n: ");
                             if (Isc == null) break;
                             double? highTemp = GetNumber("enter T high: ");
-                            if(highTemp == null) break;
+                            if (highTemp == null) break;
                             double? lowTemp = GetNumber("enter T low: ");
-                            if(lowTemp == null) break;
+                            if (lowTemp == null) break;
                             double high = 0;
                             double low = 0;
-                            Tcalc tc = new Tcalc();
-                            switch((int)Isc){
+                            switch ((int)Isc)
+                            {
                                 case 1:
-                                    high = calc.Tcalc.Kalv((double)highTemp);
-                                    low = calc.Tcalc.Kalv((double)lowTemp);
+                                    //converting C to Kelvin - with an extension method
+                                    //high = calc.Tcalc.Kalv((double)highTemp);
+                                    high = ((double)highTemp).ToKelvin();
+                                    //low = calc.Tcalc.Kalv((double)lowTemp);
+                                    low = ((double)lowTemp).ToKelvin();
                                     break;
+
                                 case 2:
-                                    high = calc.Tcalc.Kalv(calc.Tcalc.Celc((double)highTemp));
-                                    low = calc.Tcalc.Kalv(calc.Tcalc.Celc((double)lowTemp));
+                                    //converting F to C, then to Kelvin - with an extension method
+                                    //high = calc.Tcalc.Kalv(calc.Tcalc.Celc((double)highTemp));
+                                    high = (((double)highTemp).ToCelsius()).ToKelvin();
+                                    //low = calc.Tcalc.Kalv(calc.Tcalc.Celc((double)lowTemp));
+                                    low = (((double)lowTemp).ToCelsius()).ToKelvin();
                                     break;
+
                                 default:
                                     break;
-
                             }
 
-                            Console.WriteLine(tc.OpenCircuitVoltage(high, low));
+                            //in order to call static methods without the "this" keyword, we just use the name of the static class
+                            Console.WriteLine(Tcalc.OpenCircuitVoltage(high, low));
                             Thread.Sleep(5000);
                             break;
+
                         default:
                             break;
-
-
-
-
-
                     }
-                   
+
                     /*Calc c = new Calc();
                     Console.Write($"Multiplying {Number1} and {Number1}\n");
                     double mult = c.MultiplyNumbers(Number1, Number1);
                     Console.WriteLine(mult);*/
-
-
-
-
                 }
                 else break;
                 Console.Clear();
             }
-
 
             /* while (true)
              {
@@ -107,29 +120,9 @@ namespace calc
                      Console.WriteLine($"{Number2} % {Number2} = {Number1 % Number2}");
                      Console.Write("press enter to continue...");
                      Console.ReadLine();
-
                  }
                  else break;
                  end: Console.Clear();       }*/
         }
-
-        private static double? GetNumber(string prompt){
-            Console.Write(prompt);
-            string input = Console.ReadLine();
-            if (double.TryParse(input, out double number))
-            {
-                
-                return number;
-            }else{
-                Console.WriteLine("\n input invalid ");
-                Thread.Sleep(800);
-                return null;
-            }
-
-
-            
-        }
-
-
     }
 }
