@@ -34,6 +34,41 @@ namespace calc
         {
             return high - low / high;
         }
-        
+
+        //Specific Heat of Water, roughly 1BTU/pound mass degrees F
+        public static double CP = 1D;
+
+        //Temperature Difference - it is best to use the abs 
+        public static double ToDeltaTemp(double high, double low)
+        {
+            return Math.Abs(high - low);
+        }
+
+        /****
+         * http://www.ucsusa.org/sites/default/files/legacy/assets/documents/nuclear_power/20071204-ucs-brief-got-water.pdf
+         * The minimum flow rate of water needed in a once-through cooling system to remove the waste
+         * heat from a nuclear power reactor is given by the following equation:
+         * Q = m* CP * ΔT
+         * or
+         * m = Q / ( CP * ΔT) 
+         * where:
+         *      Q = waste heat load, BTU per hour
+         *      m = once - through cooling system flow rate, pounds mass per hour
+         *      CP = specific heat of water, ≈ 1 BTU/pound mass ºF
+         *      ΔT = temperature difference, ºF
+         ****/
+
+        // Q = m* CP * ΔT
+        public static double CalcMinFlowRateOneThrough(double onceThroughCoolingSystFlowRate, double highTemp, double lowTemp)
+        {
+            return onceThroughCoolingSystFlowRate * CP * ToDeltaTemp(highTemp, lowTemp);
+        }
+
+        // m = Q / ( CP * ΔT)
+        public static double CalcOnceThroughCoolingSystFlowRate(double wasteHeatLoad, double highTemp, double lowTemp)
+        {
+            return wasteHeatLoad /( CP * ToDeltaTemp(highTemp, lowTemp));
+        }
+
     }
 }
