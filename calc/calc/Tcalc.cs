@@ -16,7 +16,7 @@ namespace calc
         }
         public double OpenCircuitVoltage(double high, double low)
         {
-            return high - low / high;
+            return (high - low) / high;
         }
 
 

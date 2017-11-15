@@ -8,7 +8,7 @@ namespace calc
 
         static void Main(string[] args)
         {
-            
+
             while (true)
             {
                 Console.Write("do you want to do a calculation ? [y/N]: ");
@@ -22,13 +22,14 @@ namespace calc
                             double? Isc = GetNumber("what system do you want to use \n 1 : Celsius, 2 : Fahrenheit\n: ");
                             if (Isc == null) break;
                             double? highTemp = GetNumber("enter T high: ");
-                            if(highTemp == null) break;
+                            if (highTemp == null) break;
                             double? lowTemp = GetNumber("enter T low: ");
-                            if(lowTemp == null) break;
+                            if (lowTemp == null) break;
                             double high = 0;
                             double low = 0;
                             Tcalc tc = new Tcalc();
-                            switch((int)Isc){
+                            switch ((int)Isc)
+                            {
                                 case 1:
                                     high = calc.Tcalc.Kalv((double)highTemp);
                                     low = calc.Tcalc.Kalv((double)lowTemp);
@@ -40,9 +41,12 @@ namespace calc
                                 default:
                                     break;
 
+
                             }
 
                             Console.WriteLine(tc.OpenCircuitVoltage(high, low));
+                            double? TIM = GetNumber("H: ");
+                            if (TIM != null) Console.Write($"{tc.OpenCircuitVoltage(high, low) * TIM }");
                             Thread.Sleep(5000);
                             break;
                         default:
@@ -53,7 +57,7 @@ namespace calc
 
 
                     }
-                   
+
                     /*Calc c = new Calc();
                     Console.Write($"Multiplying {Number1} and {Number1}\n");
                     double mult = c.MultiplyNumbers(Number1, Number1);
@@ -113,21 +117,24 @@ namespace calc
                  end: Console.Clear();       }*/
         }
 
-        private static double? GetNumber(string prompt){
+        private static double? GetNumber(string prompt)
+        {
             Console.Write(prompt);
             string input = Console.ReadLine();
             if (double.TryParse(input, out double number))
             {
-                
+
                 return number;
-            }else{
+            }
+            else
+            {
                 Console.WriteLine("\n input invalid ");
                 Thread.Sleep(800);
                 return null;
             }
 
 
-            
+
         }
 
 
