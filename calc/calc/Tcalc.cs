@@ -4,30 +4,28 @@ namespace calc
 {
     public static class Tcalc
     {
-        public static double Celc(double Fin)
-        {
-            return (Fin - 32) / 1.8;
-        }
 
         //trying this as an extension method might make it a little cleaner:
         //https://weblogs.asp.net/scottgu/new-orcas-language-feature-extension-methods
         //Scott Guthrie is an amazing programmer that ALWAYS wears a red shirt.
         //that is why there is a red shirt on his blog!
         //if you use the "this" keyword, you can call the static method a bit more efficiently...
-        public static double ToCelsius(this double fahrenheit)
+        public static double ToCelsiusFromFahrenheit(this double fahrenheit)
         {
             return (fahrenheit - 32) / 1.8;
         }
 
-        public static double Kalv(double Cin)
-        {
-            return Cin + 273.15;
-        }
-
         //if you use the "this" keyword, you can call the static method a bit more efficiently...
-        public static double ToKelvin(this double celsius)
+        public static double ToKelvinFromCelsius(this double celsius)
         {
             return celsius + 273.15;
+        }
+        public static double ToCelsiusFromKelvin(this double kelvin){
+            return kelvin - 273.15;
+        }
+        public static double ToFahrenheitFromCelsius(this double celsius)
+        {
+            return (celsius * 1.8) + 32;
         }
 
         public static double OpenCircuitVoltage(double high, double low)
@@ -67,8 +65,48 @@ namespace calc
         // m = Q / ( CP * ΔT)
         public static double CalcOnceThroughCoolingSystFlowRate(double wasteHeatLoad, double highTemp, double lowTemp)
         {
-            return wasteHeatLoad /( CP * ToDeltaTemp(highTemp, lowTemp));
+            return wasteHeatLoad / (CP * ToDeltaTemp(highTemp, lowTemp));
         }
 
+
+
+
+
+        public static double? GetTemp(double fromSystem, double toSystem, double incoming)
+        {
+            
+            double? returnValue = null;
+            if (!fromSystem.CheckValidConversionTarget()) return null;
+            if (!toSystem.CheckValidConversionTarget()) return null;
+            //1 = c, 2 = f, 3 = k
+            switch (fromSystem)
+            {
+                case 1:
+                    if (toSystem == 1D) return incoming;
+                    if (toSystem == 2D) return incoming.ToKelvinFromCelsius();
+                    if (toSystem == 3D) return incoming.ToFahrenheitFromCelsius();
+                    break;
+                case 2:
+                    if (toSystem == 1D) return incoming.ToCelsiusFromFahrenheit();
+                    if (toSystem == 2D) return incoming;
+                    if (toSystem == 3D) return incoming.ToCelsiusFromFahrenheit().ToKelvinFromCelsius();
+                    break;
+                case 3:
+                    if (toSystem == 1D) return incoming.ToCelsiusFromKelvin();
+                    if (toSystem == 2D) return incoming.ToCelsiusFromKelvin().ToFahrenheitFromCelsius();
+                    if (toSystem == 3D) return incoming;
+                    break;
+            }
+
+            return returnValue;
+        }
+
+        private static bool CheckValidConversionTarget(this double convTarget){
+            if(convTarget >= 1 && convTarget <= 3 ){
+                return true;
+            }
+            Console.WriteLine($"Input Invalid {convTarget}");
+            return false;
+        }
     }
 }

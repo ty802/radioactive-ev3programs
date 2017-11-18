@@ -23,7 +23,7 @@ namespace calc
 
         private static void Main(string[] args)
         {
-            bool Ok = false;
+            bool IsInputValid = false;
             while (true)
             {
                 Console.Write("do you want to do a calculation ? [y/N]: ");
@@ -48,24 +48,24 @@ namespace calc
                                 case 1:
                                     //converting C to Kelvin - with an extension method
                                     //high = calc.Tcalc.Kalv((double)highTemp);
-                                    high = ((double)highTemp).ToKelvin();
+                                    high = ((double)highTemp).ToKelvinFromCelsius();
                                     //low = calc.Tcalc.Kalv((double)lowTemp);
-                                    low = ((double)lowTemp).ToKelvin();
-                                    Ok = true;
+                                    low = ((double)lowTemp).ToKelvinFromCelsius();
+                                    IsInputValid = true;
                                     break;
 
                                 case 2:
                                     //converting F to C, then to Kelvin - with an extension method
                                     //high = calc.Tcalc.Kalv(calc.Tcalc.Celc((double)highTemp));
-                                    high = (((double)highTemp).ToCelsius()).ToKelvin();
+                                    high = (((double)highTemp).ToCelsiusFromFahrenheit()).ToKelvinFromCelsius();
                                     //low = calc.Tcalc.Kalv(calc.Tcalc.Celc((double)lowTemp));
-                                    low = (((double)lowTemp).ToCelsius()).ToKelvin();
-                                    Ok = true;
+                                    low = (((double)lowTemp).ToCelsiusFromFahrenheit()).ToKelvinFromCelsius();
+                                    IsInputValid = true;
                                     break;
                                 case 3:
                                     high = (double)highTemp;
                                     low = (double)lowTemp;
-                                    Ok = true;
+                                    IsInputValid = true;
                                     break;
                                 default:
                                     Console.WriteLine("\n input invalid");
@@ -73,16 +73,30 @@ namespace calc
                             }
 
                             //in order to call static methods without the "this" keyword, we just use the name of the static class
-                            if (Ok)
+                            if (IsInputValid)
                             {
                                 Console.WriteLine(Tcalc.OpenCircuitVoltage(high, low));
                                 Console.WriteLine("Press any key to continue...");
                                 Console.ReadKey();
 
                             }
-                            Thread.Sleep(5000);
+                            else
+                            {
+                                Thread.Sleep(5000);
+                            }
                             break;
+                        case "2":
 
+
+
+
+
+
+
+
+
+
+                            break;
                         default:
                             break;
                     }
