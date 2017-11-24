@@ -72,7 +72,7 @@ namespace calc
 
 
 
-        public static double? GetTemp(double fromSystem, double toSystem, double incoming)
+        public static double? GetTemp(this double incoming,double fromSystem, double toSystem)
         {
             
             double? returnValue = null;
@@ -106,6 +106,7 @@ namespace calc
                 return true;
             }
             Console.WriteLine($"Input Invalid {convTarget}");
+            System.Threading.Thread.Sleep(1000);
             return false;
         }
     }
