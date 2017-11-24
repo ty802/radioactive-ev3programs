@@ -57,7 +57,7 @@ namespace calc
          ****/
 
         // Q = m* CP * ΔT
-        public static double CalcMinFlowRateOneThrough(double onceThroughCoolingSystFlowRate, double highTemp, double lowTemp)
+        public static double wastHeatLoad (double onceThroughCoolingSystFlowRate, double highTemp, double lowTemp)
         {
             return onceThroughCoolingSystFlowRate * CP * ToDeltaTemp(highTemp, lowTemp);
         }
@@ -76,8 +76,8 @@ namespace calc
         {
             
             double? returnValue = null;
-            if (!fromSystem.CheckValidConversionTarget()) return null;
-            if (!toSystem.CheckValidConversionTarget()) return null;
+            if (!((double?)fromSystem).CheckValidConversionTarget()) return null;
+            if (!((double?)toSystem).CheckValidConversionTarget()) return null;
             //1 = c, 2 = f, 3 = k
             switch (fromSystem)
             {
@@ -101,8 +101,8 @@ namespace calc
             return returnValue;
         }
 
-        private static bool CheckValidConversionTarget(this double convTarget){
-            if(convTarget >= 1 && convTarget <= 3 ){
+        public static bool CheckValidConversionTarget(this double? convTarget){
+            if(convTarget != null && convTarget >= 1 && convTarget <= 3 ){
                 return true;
             }
             Console.WriteLine($"Input Invalid {convTarget}");

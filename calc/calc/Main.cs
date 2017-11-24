@@ -23,7 +23,6 @@ namespace calc
 
         private static void Main(string[] args)
         {
-            bool IsInputValid = false;
             while (true)
             {
                 Console.Write("do you want to do a calculation ? [y/N]: ");
@@ -32,17 +31,20 @@ namespace calc
                     Console.Write("enter mode\n1 = OpenCircuitVoltage\n: ");
                     // geting mode
                     string mode = Console.ReadLine();
+                    double? Isc = null;
+                    double? high = null;
+                    double? low = null;
+                    double? highTemp = null;
+                    double? lowTemp = null;
                     switch (mode)
                     {
                         case "1":
-                            double? Isc = GetNumber("what system do you want to use \n 1 : Celsius, 2 : Fahrenheit 3 : Kelvin\n: ");
-                            if (Isc == null) break;
-                            double? highTemp = GetNumber("enter T high: ");
+                            Isc = GetNumber("what system do you want to use \n 1 : Celsius, 2 : Fahrenheit 3 : Kelvin\n: ");
+                            if (!Tcalc.CheckValidConversionTarget(Isc)) break;
+                            highTemp = GetNumber("enter T high: ");
                             if (highTemp == null) break;
-                            double? lowTemp = GetNumber("enter T low: ");
+                            lowTemp = GetNumber("enter T low: ");
                             if (lowTemp == null) break;
-                            double? high = 0;
-                            double? low = 0;
                             high =  ((double)highTemp).GetTemp((double)Isc, 3);
                             if (high == null) break;
                             low = ((double)lowTemp).GetTemp((double)Isc, 3);
@@ -54,6 +56,13 @@ namespace calc
                                 Console.ReadKey();
                             break;
                         case "2":
+                            Isc = GetNumber("what system do you want to use \n 1 : Celsius, 2 : Fahrenheit 3 : Kelvin\n: ");
+                            if (!Tcalc.CheckValidConversionTarget(Isc)) break;
+                            highTemp = GetNumber("enter T high: ");
+                            if (highTemp == null) break;
+                            lowTemp = GetNumber("enter T low: ");
+                            if (lowTemp == null) break;
+
 
 
 
