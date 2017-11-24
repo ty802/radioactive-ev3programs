@@ -41,49 +41,17 @@ namespace calc
                             if (highTemp == null) break;
                             double? lowTemp = GetNumber("enter T low: ");
                             if (lowTemp == null) break;
-                            double high = 0;
-                            double low = 0;
-                            switch ((double)Isc)
-                            {
-                                case 1:
-                                    //converting C to Kelvin - with an extension method
-                                    //high = calc.Tcalc.Kalv((double)highTemp);
-                                    high = ((double)highTemp).ToKelvinFromCelsius();
-                                    //low = calc.Tcalc.Kalv((double)lowTemp);
-                                    low = ((double)lowTemp).ToKelvinFromCelsius();
-                                    IsInputValid = true;
-                                    break;
-
-                                case 2:
-                                    //converting F to C, then to Kelvin - with an extension method
-                                    //high = calc.Tcalc.Kalv(calc.Tcalc.Celc((double)highTemp));
-                                    high = (((double)highTemp).ToCelsiusFromFahrenheit()).ToKelvinFromCelsius();
-                                    //low = calc.Tcalc.Kalv(calc.Tcalc.Celc((double)lowTemp));
-                                    low = (((double)lowTemp).ToCelsiusFromFahrenheit()).ToKelvinFromCelsius();
-                                    IsInputValid = true;
-                                    break;
-                                case 3:
-                                    high = (double)highTemp;
-                                    low = (double)lowTemp;
-                                    IsInputValid = true;
-                                    break;
-                                default:
-                                    Console.WriteLine("\n input invalid");
-                                    break;
-                            }
-
+                            double? high = 0;
+                            double? low = 0;
+                            high =  ((double)highTemp).GetTemp((double)Isc, 3);
+                            if (high == null) break;
+                            low = ((double)lowTemp).GetTemp((double)Isc, 3);
+                            if (low == null) break;
                             //in order to call static methods without the "this" keyword, we just use the name of the static class
-                            if (IsInputValid)
-                            {
-                                Console.WriteLine(Tcalc.OpenCircuitVoltage(high, low));
-                                Console.WriteLine("Press any key to continue...");
+                       
+                                Console.WriteLine(Tcalc.OpenCircuitVoltage((double)high, (double)low));
+                            Console.Write("Press any key to continue...   ");
                                 Console.ReadKey();
-
-                            }
-                            else
-                            {
-                                Thread.Sleep(5000);
-                            }
                             break;
                         case "2":
 
