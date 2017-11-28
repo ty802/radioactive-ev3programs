@@ -63,7 +63,7 @@ namespace calc
         }
 
         // m = Q / ( CP * ΔT)
-        public static double CalcOnceThroughCoolingSystFlowRate(double wasteHeatLoad, double highTemp, double lowTemp)
+        public static double CalcOnceThroughCoolingSystFlowRate(this double wasteHeatLoad, double highTemp, double lowTemp)
         {
             return wasteHeatLoad / (CP * ToDeltaTemp(highTemp, lowTemp));
         }

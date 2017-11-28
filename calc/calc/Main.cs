@@ -28,7 +28,7 @@ namespace calc
                 Console.Write("do you want to do a calculation ? [y/N]: ");
                 if (Console.ReadLine().ToLower().Equals("y"))
                 {
-                    Console.Write("enter mode\n1 = OpenCircuitVoltage\n: ");
+                    Console.Write("enter mode\n1 = OpenCircuitVoltage\n2 = CalcOnceThroughCoolingSystFlowRate\n: ");
                     // geting mode
                     string mode = Console.ReadLine();
                     double? Isc = null;
@@ -36,6 +36,8 @@ namespace calc
                     double? low = null;
                     double? highTemp = null;
                     double? lowTemp = null;
+                    double? heatLoad = null;
+                    double? onceThroughCoolingSystFlowRate = null;
                     switch (mode)
                     {
                         case "1":
@@ -53,7 +55,8 @@ namespace calc
                        
                                 Console.WriteLine(Tcalc.OpenCircuitVoltage((double)high, (double)low));
                             Console.Write("Press any key to continue...   ");
-                                Console.ReadKey();
+                            Console.ReadKey();
+
                             break;
                         case "2":
                             Isc = GetNumber("what system do you want to use \n 1 : Celsius, 2 : Fahrenheit 3 : Kelvin\n: ");
@@ -62,17 +65,11 @@ namespace calc
                             if (highTemp == null) break;
                             lowTemp = GetNumber("enter T low: ");
                             if (lowTemp == null) break;
-
-
-
-
-
-
-
-
-
-
-
+                            heatLoad = GetNumber("enter HeatLoad: ");
+                            if (heatLoad == null) break;
+                            Console.Write(((double)heatLoad).CalcOnceThroughCoolingSystFlowRate((double)highTemp, (double)lowTemp));
+                            Console.Write("Press any key to continue...   ");
+                            Console.ReadKey();
                             break;
                         default:
                             break;
