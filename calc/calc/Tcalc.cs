@@ -28,10 +28,7 @@ namespace calc
             return (celsius * 1.8) + 32;
         }
 
-        public static double OpenCircuitVoltage(double high, double low)
-        {
-            return high - low / high;
-        }
+        public static double OpenCircuitVoltage(double high, double low) => (high - low)/high;
 
         //Specific Heat of Water, roughly 1BTU/pound mass degrees F
         public static double CP = 1D;
